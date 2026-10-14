@@ -72,6 +72,17 @@ Model limits in the catalog are conservative (8,192 output tokens per request). 
 - The `standardcompute launch openclaw` launcher starts OpenClaw with a separate Standard Compute profile and leaves your usual setup alone. See the [OpenClaw guide](https://docs.standardcompute.com/agents/openclaw).
 - A manual `models.providers` config block is in the same guide.
 
+## Related guides
+
+Guides for OpenClaw users on standardcompute.com:
+
+- [OpenClaw setup](https://standardcompute.com/integrations/openclaw): connecting OpenClaw to Standard Compute, step by step.
+- [Best budget LLM for OpenClaw](https://standardcompute.com/best-llm-for-openclaw): models compared by cost per task, not per token.
+- [Cut OpenClaw's API costs](https://standardcompute.com/cut-ai-agent-api-costs/openclaw): what actually moves the bill, such as heartbeats and long sessions.
+- [OpenClaw "API rate limit reached" (429)](https://standardcompute.com/fix/openclaw-rate-limit-reached): causes and fixes.
+- [OpenClaw "conflicting plugin install metadata"](https://standardcompute.com/fix/openclaw-plugin-install-sqlite-conflict): fixing a plugin install that fails on shared SQLite state.
+- [Run OpenClaw on Hetzner](https://standardcompute.com/guides/run-openclaw-on-hetzner): server sizes, setup and the model bill.
+
 ## Development
 
 Requires Node 24.16+ (or 26.1+).
