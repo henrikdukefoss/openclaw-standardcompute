@@ -1,0 +1,46 @@
+name: Publish to ClawHub
+
+# Manual only. Needs the repository secret CLAWHUB_TOKEN (a ClawHub API token
+# from clawhub.ai -> Settings -> API tokens, signed in as henrikdukefoss).
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Preview only, do not upload"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      CLAWHUB_CONFIG_PATH: ${{ runner.temp }}/clawhub-config.json
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm test
+      - run: npm i -g clawhub@0.23.3
+      - run: clawhub package validate . --out "$RUNNER_TEMP/inspector" --openclaw-version 2026.10.3
+      - name: Log in
+        if: ${{ !inputs.dry_run }}
+        env:
+          CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
+        run: |
+          test -n "$CLAWHUB_TOKEN" || { echo "::error::Set the CLAWHUB_TOKEN repository secret first."; exit 1; }
+          clawhub --no-input login --token "$CLAWHUB_TOKEN"
+          clawhub whoami
+      - name: Publish
+        run: |
+          clawhub package publish . \
+            --source-repo "$GITHUB_REPOSITORY" \
+            --source-commit "$GITHUB_SHA" \
+            --source-ref "$GITHUB_REF_NAME" \
+            --topics "llm-gateway,model-provider,openai-compatible,smart-routing" \
+            ${{ inputs.dry_run && '--dry-run' || '--wait' }}
