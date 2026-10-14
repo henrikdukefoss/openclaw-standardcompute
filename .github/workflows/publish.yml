@@ -16,9 +16,8 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    env:
-      CLAWHUB_CONFIG_PATH: ${{ runner.temp }}/clawhub-config.json
     steps:
+      - run: echo "CLAWHUB_CONFIG_PATH=$RUNNER_TEMP/clawhub-config.json" >> "$GITHUB_ENV"
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
