@@ -1,0 +1,105 @@
+{
+  "id": "standardcompute",
+  "name": "Standard Compute",
+  "description": "Standard Compute model provider: an OpenAI-compatible LLM gateway with smart routing and a fixed monthly budget.",
+  "categories": ["models"],
+  "activation": { "onStartup": false },
+  "enabledByDefault": true,
+  "providers": ["standardcompute"],
+  "setup": {
+    "providers": [
+      {
+        "id": "standardcompute",
+        "envVars": ["STANDARDCOMPUTE_API_KEY", "STANDARD_COMPUTE_API_KEY"]
+      }
+    ]
+  },
+  "providerAuthChoices": [
+    {
+      "provider": "standardcompute",
+      "method": "api-key",
+      "choiceId": "standardcompute-api-key",
+      "choiceLabel": "Standard Compute API key",
+      "choiceHint": "OpenAI-compatible gateway, flat monthly budget",
+      "groupId": "standardcompute",
+      "groupLabel": "Standard Compute",
+      "groupHint": "OpenAI-compatible gateway, flat monthly budget",
+      "optionKey": "standardcomputeApiKey",
+      "cliFlag": "--standardcompute-api-key",
+      "cliOption": "--standardcompute-api-key <key>",
+      "cliDescription": "Standard Compute API key"
+    }
+  ],
+  "modelCatalog": {
+    "providers": {
+      "standardcompute": {
+        "baseUrl": "https://api.stdcmpt.com/v1",
+        "api": "openai-responses",
+        "defaultModel": "standardcompute",
+        "models": [
+          {
+            "id": "standardcompute",
+            "name": "Standard Compute (smart routing)",
+            "reasoning": false,
+            "input": ["text", "image"],
+            "contextWindow": 1000000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "anthropic/claude-sonnet-5.5",
+            "name": "Claude Sonnet 5.5",
+            "reasoning": true,
+            "input": ["text", "image"],
+            "contextWindow": 1000000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "openai/gpt-5.6-sol",
+            "name": "GPT-5.6 Sol",
+            "reasoning": true,
+            "input": ["text", "image"],
+            "contextWindow": 1050000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "deepseek/deepseek-v4-pro",
+            "name": "DeepSeek V4 Pro",
+            "reasoning": true,
+            "input": ["text"],
+            "contextWindow": 1048576,
+            "maxTokens": 8192
+          },
+          {
+            "id": "z-ai/glm-5.3",
+            "name": "GLM 5.3",
+            "reasoning": true,
+            "input": ["text"],
+            "contextWindow": 1048576,
+            "maxTokens": 8192
+          },
+          {
+            "id": "moonshotai/kimi-k3",
+            "name": "Kimi K3",
+            "reasoning": true,
+            "input": ["text", "image"],
+            "contextWindow": 1048576,
+            "maxTokens": 8192
+          },
+          {
+            "id": "qwen/qwen3.7-plus",
+            "name": "Qwen 3.7 Plus",
+            "reasoning": true,
+            "input": ["text", "image"],
+            "contextWindow": 1000000,
+            "maxTokens": 8192
+          }
+        ]
+      }
+    }
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}
